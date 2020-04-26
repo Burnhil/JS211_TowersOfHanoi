@@ -7,7 +7,7 @@
 // * Why are you get a warning in your console? Fix it.
 // * Delete these comment lines!
 
-const stone = null
+let stone = null
 
 // this function is called when a row is clicked. 
 // Open your inspector tool to see what is being captured and can be used.
@@ -18,14 +18,25 @@ const selectRow = (row) => {
   console.log("Here is the stone's id: ", row.id)
   console.log("Here is the stone's data-size: ", currentRow)
 
-  pickUpStone(row.id)
+  if(stone == null){
+    pickUpStone(row.id)
+  }else{
+    let movingStone = stone.getAttribute("data-size");
+    console.log("The Data size is " + movingStone);
+
+    
+ 
+    dropStone(row.id)
+  }
 } 
 
 // this function can be called to get the last stone in the stack
 // but there might be something wrong with it...
 const pickUpStone = (rowID) => {
-  const selectedRow = document.getElementById(rowID);
-  stone = selectedRow.removeChild(selectedRow.lastChild);
+  let selectedRow = document.getElementById(rowID);
+  console.log(`the sleectedRow.lastchild is ${selectedRow.lastElementChild}`); //last child will retrun absolute last node which is usually an emtpy text node.
+  //lastElementChild should return the last actual element child, not the text node.
+  stone = selectedRow.removeChild(selectedRow.lastElementChild);
   console.log(stone)
 }
 
@@ -33,7 +44,7 @@ const pickUpStone = (rowID) => {
 // Once you figure that out you'll need to figure out if its a legal move...
 // Something like: if(!stone){pickupStone} else{dropStone}
 
-const dropStone = (rowID, stone) => {
+const dropStone = (rowID) => {
   document.getElementById(rowID).appendChild(stone)
   stone = null
 }

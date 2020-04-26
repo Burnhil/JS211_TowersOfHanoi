@@ -29,27 +29,88 @@ const printStacks = () => {
   console.log("c: " + stacks.c);
 }
 
-// Next, what do you think this function should do?
-const movePiece = () => {
-  // Your code here
 
+// Next, what do you think this function should do?
+const movePiece = (removed, placed) => {
+  // Your code here
+  //console.log("Entering move pices");
+  let movingPiece = stacks[removed].pop();
+  stacks[placed].push(movingPiece);
 }
 
 // Before you move, should you check if the move it actually allowed? Should 3 be able to be stacked on 2
-const isLegal = () => {
+const isLegal = (move1, move2) => {
   // Your code here
+      
+  let removedPiece = stacks[move1][stacks[move1].length - 1];
+  let newPieceSpot = stacks[move2][stacks[move2].length - 1];
+
+  //console.log(newPieceSpot);
+
+  if(newPieceSpot === undefined){
+    //console.log("yeah we have and undefined!!!!!!!!");
+    return true;
+  }else{
+    //console.log("WE HAVE NUMBERS IN ARRAY!");
+    if(removedPiece < newPieceSpot){
+      return true;
+    }else{
+      return false;
+    }
+  }
 
 }
 
 // What is a win in Towers of Hanoi? When should this function run?
 const checkForWin = () => {
   // Your code here
+  let test = [4, 3, 2, 1];
+  let resultsB = "";
+  let resultsC = "";
+  let bLength = stacks.b.length;
+  let cLength = stacks.c.length;
+
+  
+  for(let i=0; i < stacks.b.length; i++){
+    if(stacks.b[i] !== test[i]){
+      resultsB = false;
+    }else{
+      resultsB = true;
+    }
+  }
+
+  for(let i=0; i < stacks.c.length; i++){
+    if(stacks.c[i] !== test[i]){
+      resultsC = false;
+    }else{
+      resultsC = true;
+    }
+  }
+  
+  //comparing array to test and length to ensure winner
+  if(resultsB && bLength == 4 || resultsC && cLength == 4){
+    return true;
+  }else{
+    return false;
+  }
 
 }
 
 // When is this function called? What should it do with its argument?
 const towersOfHanoi = (startStack, endStack) => {
+
   // Your code here
+  if(isLegal(startStack, endStack) === true){
+    movePiece(startStack, endStack);
+  }else{
+    console.log("Illegal move sorry try again!");
+  }
+
+  if(checkForWin()){
+    console.log("We have a winner game over!!!");
+  }
+
+
 
 }
 
